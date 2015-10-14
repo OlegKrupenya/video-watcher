@@ -1,0 +1,27 @@
+group 'com.testdev'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task cleanTomcat(type: Delete) {
+    def CATALINA_HOME = System.getenv('CATALINA_HOME')
+    delete CATALINA_HOME + '/webapps/' + rootProject.name
+    delete CATALINA_HOME + '/webapps/' + rootProject.name +'.war'
+    delete CATALINA_HOME + '/work/Catalina/localhost/' + rootProject.name
+}
+
+task deployWar(type: Copy) {
+    def CATALINA_HOME = System.getenv('CATALINA_HOME')
+    from 'build/libs'
+    into CATALINA_HOME + '/webapps'
+}
