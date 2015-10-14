@@ -15,7 +15,8 @@
         }
 
         function connect() {
-            var socket = new SockJS('/video-watcher/hello');
+            var socket = new SockJS('/stomp');
+            //var socket = new SockJS('http://127.0.0.1:15674/stomp');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 setConnected(true);
@@ -23,6 +24,11 @@
                 stompClient.subscribe('/topic/greetings', function (greeting) {
                     showGreeting(JSON.parse(greeting.body).content);
                 });
+                /*
+                 stompClient.subscribe('/topic/greetings', function (greeting) {
+                 showGreeting(JSON.parse(greeting.body).content);
+                 });
+                 */
             });
         }
 
@@ -36,7 +42,7 @@
 
         function sendName() {
             var name = document.getElementById('name').value;
-            stompClient.send("/app/hello", {}, JSON.stringify({'name': name}));
+            stompClient.send("/app/stomp", {}, JSON.stringify({'name': name}));
         }
 
         function showGreeting(message) {
