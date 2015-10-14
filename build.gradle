@@ -25,6 +25,7 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework:spring-messaging")
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
@@ -37,6 +38,6 @@ task cleanTomcat(type: Delete) {
 
 task deployWar(type: Copy) {
     def CATALINA_HOME = System.getenv('CATALINA_HOME')
-    from 'build/libs'
+    from 'build/libs/' + rootProject.name +'.war'
     into CATALINA_HOME + '/webapps'
 }
