@@ -15,7 +15,7 @@
         }
 
         function connect() {
-            var socket = new SockJS('http://192.168.4.138:8080/stomp');
+            var socket = new SockJS('/stomp');
             //var socket = new SockJS('http://127.0.0.1:15674/stomp');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
