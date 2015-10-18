@@ -55,7 +55,7 @@
     client.debug = pipe('#second');
 
     var print_first = pipe('#first', function (data) {
-        client.send('/topic/test1', {"content-type": "text/plain"}, data);
+        client.send('/exchange/test1/test1', {"content-type": "text/plain"}, data);
     });
     var on_connect = function(x) {
         id = client.subscribe("/exchange/test1/test1", function(d) {
