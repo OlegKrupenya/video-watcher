@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
+    <title>Video Watcher</title>
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
     <script type="text/javascript">
@@ -16,19 +16,13 @@
 
         function connect() {
             var socket = new SockJS('/stomp');
-            //var socket = new SockJS('http://127.0.0.1:15674/stomp');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/greetings', function (greeting) {
-                    showGreeting(JSON.parse(greeting.body).content);
+                    showGreeting(JSON.parse(greeting.body));
                 });
-                /*
-                 stompClient.subscribe('/topic/greetings', function (greeting) {
-                 showGreeting(JSON.parse(greeting.body).content);
-                 });
-                 */
             });
         }
 
@@ -40,18 +34,22 @@
             console.log("Disconnected");
         }
 
-        function sendName() {
-            var name = document.getElementById('name').value;
-            stompClient.send("/app/stomp", {}, JSON.stringify({'name': name}));
+        function sendConnectionTime() {
+            stompClient.send("/app/stomp", {}, JSON.stringify({'connectionTime': new Date()}));
         }
 
         function showGreeting(message) {
             var response = document.getElementById('response');
             var p = document.createElement('p');
             p.style.wordWrap = 'break-word';
-            p.appendChild(document.createTextNode(message));
+            var playingTime = new Date(message);
+            var now = new Date();
+            var delay = playingTime.getTime() - now.getTime();
+            p.appendChild(document.createTextNode("The video will be played on " + playingTime + " in " + delay + " ms."));
             response.appendChild(p);
-
+            setTimeout(playVideo, delay);
+        }
+        function playVideo() {
             document.getElementById("mainVideo").play();
         }
     </script>
@@ -66,8 +64,8 @@
         <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
     </div>
     <div id="conversationDiv">
-        <label>What is your name?</label><input type="text" id="name"/>
-        <button id="sendName" onclick="sendName();">Send</button>
+        <!--<label>What is your name?</label><input type="text" id="name"/>-->
+        <button id="sendName" onclick="sendConnectionTime();">Play video for all users</button>
         <p id="response"></p>
     </div>
     <video id="mainVideo" width="800" height="600" controls>

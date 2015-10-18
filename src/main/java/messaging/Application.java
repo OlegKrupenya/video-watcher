@@ -1,4 +1,4 @@
-package hello;
+package messaging;
 
 /**
  * Created by oleh.krupenia on 10/13/2015.
