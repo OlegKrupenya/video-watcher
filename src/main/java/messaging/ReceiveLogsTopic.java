@@ -1,14 +1,14 @@
-package messaging.topics;
+package messaging;
 
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
 
 /**
- * Created by oleh.krupenia on 10/14/2015.
+ * Created by oleh.krupenia on 10/17/2015.
  */
 public class ReceiveLogsTopic {
-    private static final String EXCHANGE_NAME = "topic_logs";
+    private static final String EXCHANGE_NAME = "test1";
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
@@ -19,8 +19,7 @@ public class ReceiveLogsTopic {
         channel.exchangeDeclare(EXCHANGE_NAME, "topic");
         String queueName = channel.queueDeclare().getQueue();
 
-
-        channel.queueBind(queueName, EXCHANGE_NAME, "kern.*");
+        channel.queueBind(queueName, EXCHANGE_NAME, "#");
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
