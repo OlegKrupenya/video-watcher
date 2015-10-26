@@ -20,7 +20,7 @@
             stompClient.connect({}, function (frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings', function (greeting) {
+                stompClient.subscribe('/exchange/test1/test1', function (greeting) {
                     showGreeting(JSON.parse(greeting.body));
                 });
             });
@@ -35,7 +35,7 @@
         }
 
         function sendConnectionTime() {
-            stompClient.send("/app/stomp", {}, JSON.stringify({'connectionTime': new Date()}));
+            stompClient.send("/exchange/test1/test1", {}, JSON.stringify({'connectionTime': new Date()}));
         }
 
         function showGreeting(message) {

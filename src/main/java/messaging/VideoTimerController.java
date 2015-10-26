@@ -18,7 +18,7 @@ public class VideoTimerController {
     public static final int TIME_DELAY = 5;
 
     @MessageMapping("/stomp")
-    @SendTo("/topic/greetings")
+    @SendTo("/exchange/test1")
     public Date sendTimeOfBeginningOfPlayingVideo(ClientConnectionData connectionData) throws Exception {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.SECOND, TIME_DELAY);
