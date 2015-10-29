@@ -34,6 +34,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+defaultTasks 'clean', 'deployWar'
+
 task cleanTomcat(type: Delete, dependsOn: build) {
     def CATALINA_HOME = System.getenv('CATALINA_HOME')
     delete CATALINA_HOME + '/webapps/' + rootProject.name
